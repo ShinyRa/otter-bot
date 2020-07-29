@@ -8,4 +8,8 @@ https://trello.com/b/BLeuD8bv/otter-bot
 [Discord.js](https://discord.js.org/#/) >= 12,  
 [Nodejs](https://nodejs.org/en/) >= 14.6.0  
 
+# Contributors
+Tijs de Graaff (shinyra) | [GitHub](https://github.com/ShinyRa),  
+Auke Steenman (postellaar) | [GitHub](https://github.com/AukeSteenman)
+
 ![pog otter](https://cdn.discordapp.com/attachments/494163139156377601/715556470334291969/otter_pog.png)
