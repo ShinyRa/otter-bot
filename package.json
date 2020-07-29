@@ -1,0 +1,23 @@
+{
+  "name": "otter-bot",
+  "version": "0.0.1",
+  "description": "Voor al de pizzakoerierenfanclub otter benodigheden",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShinyRa/otter-bot.git"
+  },
+  "keywords": [
+    "otter"
+  ],
+  "author": "shinyra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShinyRa/otter-bot/issues"
+  },
+  "homepage": "https://github.com/ShinyRa/otter-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0"
+  }
+}
