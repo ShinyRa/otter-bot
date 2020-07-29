@@ -1,4 +1,4 @@
-# otter-bot
+# otter-bot 
 Voor al de pizzakoerierenfanclub otter benodigheden
 
 # Backlog
@@ -11,5 +11,8 @@ https://trello.com/b/BLeuD8bv/otter-bot
 # Contributors
 Tijs de Graaff (shinyra) | [GitHub](https://github.com/ShinyRa),  
 Auke Steenman (postellaar) | [GitHub](https://github.com/AukeSteenman)
+
+# Discord
+leave suggestions in the [discord](https://discord.gg/98egQW)
 
 ![pog otter](https://cdn.discordapp.com/attachments/494163139156377601/715556470334291969/otter_pog.png)
