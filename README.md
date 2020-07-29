@@ -13,6 +13,6 @@ Tijs de Graaff (shinyra) | [GitHub](https://github.com/ShinyRa),
 Auke Steenman (postellaar) | [GitHub](https://github.com/AukeSteenman)
 
 # Discord
-leave suggestions in the [discord](https://discord.gg/98egQW)
+Heb je suggesties of wil je helpen in de development van otter-bot? Je kunt ons vinden in de discord server [discord](https://discord.gg/98egQW)
 
 ![pog otter](https://cdn.discordapp.com/attachments/494163139156377601/715556470334291969/otter_pog.png)
