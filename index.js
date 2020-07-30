@@ -63,8 +63,10 @@ bot.on("message", async (msg) => {
 //To be or not to be otter day. That is the question.
 schedule.scheduleJob('0 0 * * *', () => { 
   isOtterday ? isOtterday = false : isOtterday = true;
+  isOtterday ? bot.channels.cache.get("738031504940335194").send("Het is Otter dag!") 
+             : bot.channels.cache.get("738031504940335194").send("Otter dag is afgelopen...");
+      
 })
-
 //This gets a fresh new otter pic from cutestpaw.com
 function getOtterPic() {
   return "http://www.cutestpaw.com/wp-content/uploads/2016/01/Tiny-otter..jpg";
@@ -77,7 +79,7 @@ function TTOD(){
   }else{
     let currentHour = new Date().getHours();
     let currentMinute = new Date().getMinutes();
-    return "nog maar "+(FULL_DAY - currentHour)+" uur en "+(FULL_MINUTE - currentMinute)+" minuten!";
+    return "nog maar "+(FULL_DAY - currentHour)+" uur en "+(FULL_MINUTE - currentMinute)+" minuten voor de nieuwe Otter dag!";
   }
 }
 
