@@ -1,13 +1,15 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
 const env = require("dotenv").config();
-
-const request = require("request");
+const schedule = require('node-schedule');
 const deepai = require("deepai");
-const moment = require("moment");
 
+const FULL_DAY = 23;
+const FULL_MINUTE = 60;
 const API_KEY = process.env.API_KEY;
 const DEEP_AI_KEY = process.env.DEEP_AI_KEY;
+
+var isOtterday = false;
 
 bot.on("ready", () => {
   console.log(`Logged in as ${bot.user.tag}!`);
@@ -32,7 +34,7 @@ bot.on("message", async (msg) => {
       break;
 
     case "?otterdag":
-      msg.reply("Hoe moet ik dat weten ik ben een otter lol.");
+      msg.reply(TTOD());
       break;
 
     case "?rareotter":
@@ -58,9 +60,25 @@ bot.on("message", async (msg) => {
   }
 });
 
+//To be or not to be otter day. That is the question.
+schedule.scheduleJob('0 0 * * *', () => { 
+  isOtterday ? isOtterday = false : isOtterday = true;
+})
+
 //This gets a fresh new otter pic from cutestpaw.com
 function getOtterPic() {
   return "http://www.cutestpaw.com/wp-content/uploads/2016/01/Tiny-otter..jpg";
+}
+
+//Time Till Otter Day
+function TTOD(){
+  if(isOtterday){
+    return "Het is al Otter dag!"
+  }else{
+    let currentHour = new Date().getHours();
+    let currentMinute = new Date().getMinutes();
+    return "nog maar "+(FULL_DAY - currentHour)+" uur en "+(FULL_MINUTE - currentMinute)+" minuten!";
+  }
 }
 
 async function getDeepAiOtter() {
