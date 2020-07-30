@@ -22,14 +22,14 @@ bot.on("message", async (msg) => {
   switch (msg.content) {
     case "?help":
       msg.author.send(
-        "Hier komt wat Otter wijsheid!\n\n" +
+          "Hier komt wat Otter wijsheid!\n\n" +
           "**?help**: Geeft informatie over het gebruik van de Otter-bot! (op het moment alleen de commands)\n" +
           "**?otterdag**: Ehhhhh wanneer is het otterdag dan?!\n" +
           "**?rareotter**: Geeft een otter foto gegenereerd door DeepAi\n" +
           "**?hoeveelotterdagen**: Hoeveel otterdagen zijn er al geweest sinds de launch van Otter-bot?\n" +
           "**?whodis**: Geeft wat info over de gezellige codeurs!\n" +
           "**?otter**: Geeft een mooie otter foto!\n\n" +
-          "waar wacht je nog op! ga praten met de otter in het otter kanaal!"
+          "Waar wacht je nog op! ga praten met de otter in het otter kanaal!"
       );
       break;
 
@@ -47,7 +47,7 @@ bot.on("message", async (msg) => {
       break;
 
     case "?hoeveelotterdagen":
-      msg.reply("ehhhhh ongeveer twee uur ofzo.");
+      msg.reply("Ehhhhh ongeveer twee uur ofzo.");
       break;
 
     case "?whodis":
@@ -55,7 +55,7 @@ bot.on("message", async (msg) => {
       break;
 
     case "?otter":
-      msg.reply("otter pic?", { files: [getOtterPic()] });
+      msg.reply("Hier een mooie otter pic!", { files: [getOtterPic()] });
       break;
   }
 });
@@ -79,7 +79,7 @@ function TTOD(){
   }else{
     let currentHour = new Date().getHours();
     let currentMinute = new Date().getMinutes();
-    return "nog maar "+(FULL_DAY - currentHour)+" uur en "+(FULL_MINUTE - currentMinute)+" minuten voor de nieuwe Otter dag!";
+    return "nog maar "+(FULL_DAY - currentHour)+" uur en "+(FULL_MINUTE - currentMinute)+" minuten tot de nieuwe otter dag!";
   }
 }
 
