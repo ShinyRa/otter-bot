@@ -9,7 +9,3 @@
 package-lock.json
 yarn.lock
 yarn-error.log
-
-# Compiled typescript files
-/lib
-*.js
