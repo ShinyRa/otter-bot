@@ -1,12 +1,13 @@
-class Test {
-  x: number = 0;
+export default class Test {
+  constructor() {}
 
-  constructor() {
-    console.log("hi!");
-  }
+  hoi = () => {
+    console.log("hoi");
+  };
 }
 
-console.log("test");
+const test = new Test();
+test.hoi();
 
 // const Discord = require("discord.js");
 // const bot = new Discord.Client();
