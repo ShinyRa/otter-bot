@@ -23,37 +23,37 @@ bot.on("message", async (msg) => {
 
   switch (msg.content) {
     case "?help":
-        msg.author.send(
-            "Hier komt wat Otter wijsheid!\n\n" +
-            "**?help**: Geeft informatie over het gebruik van de Otter-bot! (op het moment alleen de commands)\n" +
-            "**?otterdag**: Ehhhhh wanneer is het otterdag dan?!\n" +
-            "**?rareotter**: Geeft een otter foto gegenereerd door DeepAi\n" +
-            "**?hoeveelotterdagen**: Hoeveel otterdagen zijn er al geweest sinds de launch van Otter-bot?\n" +
-            "**?whodis**: Geeft wat info over de gezellige codeurs!\n" +
-            "**?otter**: Geeft een mooie otter foto!\n\n" +
-            "Waar wacht je nog op! ga praten met de otter in het otter kanaal!"
-        );
-      break;
+       msg.author.send(
+           "Hier komt wat Otter wijsheid!\n\n" +
+           "**?help**: Geeft informatie over het gebruik van de Otter-bot! (op het moment alleen de commands)\n" +
+           "**?otterdag**: Ehhhhh wanneer is het otterdag dan?!\n" +
+           "**?rareotter**: Geeft een otter foto gegenereerd door DeepAi\n" +
+           "**?hoeveelotterdagen**: Hoeveel otterdagen zijn er al geweest sinds de launch van Otter-bot?\n" +
+           "**?whodis**: Geeft wat info over de gezellige codeurs!\n" +
+           "**?otter**: Geeft een mooie otter foto!\n\n" +
+           "Waar wacht je nog op! ga praten met de otter in het otter kanaal!"
+       );
+    break;
 
     case "?otterdag":
-        msg.reply(TTOD());
+       msg.reply(TTOD());
       break;
 
     case "?rareotter":
-        try {
-          const url = await getDeepAiOtter();
-          msg.reply("Wow deze heb ik nog nooit gezien!", { files: [url] });
-        } catch (error) {
-          console.log(error);
-        }
+       try {
+         const url = await getDeepAiOtter();
+         msg.reply("Wow deze heb ik nog nooit gezien!", { files: [url] });
+       } catch (error) {
+         console.log(error);
+       }
       break;
 
     case "?hoeveelotterdagen":
-        msg.reply(upTimeBot());
+       msg.reply(upTimeBot());
       break;
 
     case "?whodis":
-        msg.reply("Ik ben tot leven gewekt door Tijs en Auke!");
+       msg.reply("Ik ben tot leven gewekt door Tijs en Auke!");
       break;
 
     case "?otter":
