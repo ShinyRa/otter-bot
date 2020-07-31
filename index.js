@@ -3,6 +3,7 @@ const bot = new Discord.Client();
 const env = require("dotenv").config();
 const schedule = require('node-schedule');
 const deepai = require("deepai");
+const axios = require('axios').default;
 
 const FULL_DAY = 23;
 const FULL_MINUTE = 60;
@@ -14,6 +15,7 @@ var isOtterday = false;
 bot.on("ready", () => {
   console.log(`Logged in as ${bot.user.tag}!`);
   bot.user.setActivity("Het is geen otterdag...");
+  getOtterPic();
 });
 
 const PREFIX = "?";
@@ -48,7 +50,7 @@ bot.on("message", async (msg) => {
       break;
 
     case "?hoeveelotterdagen":
-        msg.reply("Ehhhhh ongeveer twee uur ofzo.");
+        msg.reply(upTimeBot());
       break;
 
     case "?whodis":
@@ -56,17 +58,18 @@ bot.on("message", async (msg) => {
       break;
 
     case "?otter":
-        msg.reply("Hier een mooie otter pic!", { files: [getOtterPic()] });
-      break;
-
-    case "?otter":
-        msg.reply("Hier een mooie otter pic!", { files: [getOtterPic()] });
+      try{
+        const url = await getOtterPic();
+        msg.reply("Hier, een mooie otter pic!", { files: [url] });
+      }catch (error) {
+        console.log(error);
+      }
       break;
   }
 });
 
 //To be or not to be otter day. That is the question.
-schedule.scheduleJob('30 * * * * *', () => { 
+schedule.scheduleJob('0 0 * * *', () => { 
   //for read-ability I have split the assignment of the isOtterday variable and the bound actions into 2 expressions.
   isOtterday ? isOtterday = false : isOtterday = true;
   if(isOtterday){
@@ -74,16 +77,33 @@ schedule.scheduleJob('30 * * * * *', () => {
       type: "STREAMING",
       url: "https://www.youtube.com/watch?v=OjqyQr1Fa4g"
     });
-    bot.channels.cache.get("738031504940335194").send("@everyone Het is Otter dag!") 
+    bot.channels.cache.get("738031504940335194").send("@everyone Het is otter dag!") 
   }else{
-    bot.user.setActivity("Het is geen otterdag...");
+    bot.user.setActivity("Het is geen otter dag...");
     bot.channels.cache.get("738031504940335194").send("@everyone Otter dag is afgelopen...");
   }
 })
 
 //This gets a fresh new otter pic from cutestpaw.com
-function getOtterPic() {
-  return "http://www.cutestpaw.com/wp-content/uploads/2016/01/Tiny-otter..jpg";
+async function getOtterPic() {
+    try {
+      let randompage = Math.floor(Math.random() * 10) + 1;
+      const response = await axios.get('https://pixabay.com/api/?key=17714117-3f85320228ccffbf998eabd33&q=otter&image_type=photo&per_page=20&page='+randompage+'');
+      let randomPicture = Math.floor(Math.random() * response.data.hits.length);
+      return response.data.hits[randomPicture].webformatURL;
+    } catch (error) {
+      console.error(error);
+    }
+}
+
+function upTimeBot(){
+  let totalSeconds = (bot.uptime / 1000);
+  let days = Math.floor(totalSeconds / 86400);
+  let hours = Math.floor(totalSeconds / 3600);
+  totalSeconds %= 3600;
+  let minutes = Math.floor(totalSeconds / 60);
+  let seconds = Math.floor(totalSeconds % 60);
+  return `Deze otter is al ${days} dagen, ${hours} uur, ${minutes} minuten en ${seconds} seconden aan het werk!`;
 }
 
 //Time Till Otter Day

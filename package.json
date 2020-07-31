@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ShinyRa/otter-bot#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "deepai": "^1.0.15",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
