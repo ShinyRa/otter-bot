@@ -15,7 +15,6 @@ var isOtterday = false;
 bot.on("ready", () => {
   console.log(`Logged in as ${bot.user.tag}!`);
   bot.user.setActivity("Het is geen otterdag...");
-  getOtterPic();
 });
 
 const PREFIX = "?";
@@ -96,6 +95,7 @@ async function getOtterPic() {
     }
 }
 
+//Gets the amount of time this server is currently running
 function upTimeBot(){
   let totalSeconds = (bot.uptime / 1000);
   let days = Math.floor(totalSeconds / 86400);
@@ -118,6 +118,7 @@ function TTOD(){
   }
 }
 
+//Generates a otter via the DeepAI algorithm
 async function getDeepAiOtter() {
   deepai.setApiKey(DEEP_AI_KEY);
   resp = await deepai.callStandardApi("text2img", {
