@@ -1,10 +1,11 @@
 import { Client } from "discord.js";
 
-import DotenvParser from "./Utils/DotenvParser";
+import DotenvParser from "./utils/DotenvParser";
 // import deepai from "deepai";
 import axios from "axios";
 
 export default class OtterBot {
+  environment: string;
   client: Client;
   FULL_DAY: number = 23;
   FULL_MINUTE: number = 60;
@@ -14,8 +15,9 @@ export default class OtterBot {
 
   PREFIX: string = "?";
 
-  constructor() {
-    this.dotenvParser = new DotenvParser();
+  constructor(environment: string) {
+    this.environment = environment;
+    this.dotenvParser = new DotenvParser(this.environment);
     this.client = new Client();
 
     this.client.login(this.dotenvParser.get("API_KEY"));

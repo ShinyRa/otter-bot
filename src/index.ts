@@ -1,7 +1,14 @@
 // import { scheduleJob } from "node-schedule";
 import OtterBot from "./OtterBot";
 
-const bot = new OtterBot();
+const ENV = process.argv[2];
+
+if (ENV === "production") {
+  console = console || {};
+  console.log = function () {};
+}
+
+const bot = new OtterBot(ENV);
 
 // //To be or not to be otter day. That is the question.
 // schedule.scheduleJob("0 0 * * *", () => {

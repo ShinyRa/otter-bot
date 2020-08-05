@@ -1,12 +1,16 @@
 import dotenv, { DotenvConfigOutput } from "dotenv";
 
 export default class DotenvParser {
+  environment: string;
   config: DotenvConfigOutput;
   variables: Map<string, string>;
 
-  constructor() {
+  constructor(environment: string) {
+    this.environment = environment;
     this.variables = new Map<string, string>();
-    this.config = dotenv.config();
+    this.config = dotenv.config({
+      path: `${this.environment === "test" ? ".test" : ""}.env`,
+    });
     this.retrieveVariables();
   }
 
