@@ -4,8 +4,9 @@
 # File holding environment variables, not for your eyes
 .env
 
-
 # Auto generated files
 package-lock.json
 yarn.lock
 yarn-error.log
+
+*.js
