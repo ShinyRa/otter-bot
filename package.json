@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/ShinyRa/otter-bot#readme",
   "dependencies": {
+    "@types/node": "^14.0.27",
     "axios": "^0.19.2",
+    "cross-env": "^7.0.2",
     "deepai": "^1.0.15",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
@@ -32,7 +34,7 @@
   },
   "scripts": {
     "test": "jest",
-    "start": "ts-node --type-check src/index.ts dev",
-    "production": "ts-node --type-check src/index.ts production"
+    "start": "cross-env NODE_ENV=dev ts-node --type-check src/index.ts",
+    "production": "cross-env NODE_ENV=production ts-node --type-check src/index.ts production"
   }
 }

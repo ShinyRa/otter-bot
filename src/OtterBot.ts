@@ -20,9 +20,14 @@ export default class OtterBot {
     this.dotenvParser = new DotenvParser(this.environment);
     this.client = new Client();
 
-    this.client.login(this.dotenvParser.get("API_KEY"));
-
-    this.listenForCommands();
+    this.client
+      .login(this.dotenvParser.get("API_KEY"))
+      .then(() => this.listenForCommands())
+      .finally(() =>
+        this.client.user?.setActivity(
+          `Running in ${this.environment} environment`
+        )
+      );
   }
 
   listenForCommands() {
@@ -98,6 +103,10 @@ export default class OtterBot {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  logout() {
+    this.client.destroy();
   }
 
   /**

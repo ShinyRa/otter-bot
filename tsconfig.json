@@ -5,7 +5,8 @@
     "allowJs": true,
     "strict": true,
     "isolatedModules": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

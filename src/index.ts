@@ -1,7 +1,30 @@
 // import { scheduleJob } from "node-schedule";
+import readline from "readline";
 import OtterBot from "./OtterBot";
+import { version } from "../package.json";
 
-const ENV = process.argv[2];
+const ENV = process.env.NODE_ENV || "";
+const IO = readline.createInterface(process.stdin, process.stdout);
+let welcome: String = String.raw`
+
+
+______   ______  ______  ______   ______   ______   ______   ______  
+/\  __ \ /\__  _\/\__  _\/\  ___\ /\  == \ /\  == \ /\  __ \ /\__  _\ 
+\ \ \/\ \\/_/\ \/\/_/\ \/\ \  __\ \ \  __< \ \  __< \ \ \/\ \\/_/\ \/ 
+ \ \_____\  \ \_\   \ \_\ \ \_____\\ \_\ \_\\ \_____\\ \_____\  \ \_\ 
+  \/_____/   \/_/    \/_/  \/_____/ \/_/ /_/ \/_____/ \/_____/   \/_/ 
+                                                                      
+
+`;
+
+IO.write(welcome.toString());
+IO.write("\n");
+IO.write(`Version: [${version}]`);
+IO.write("\n");
+IO.write(`Lauching otterbot in ${ENV} environment...`);
+IO.write(`\n`);
+IO.write(`Logging in otterbot...`);
+IO.write(`\n`);
 
 if (ENV === "production") {
   console = console || {};
@@ -9,6 +32,18 @@ if (ENV === "production") {
 }
 
 const bot = new OtterBot(ENV);
+
+IO.write(`Logged in!`);
+IO.write(`\n`);
+
+process.on("SIGINT", () => {
+  IO.write(`Logging out otterbot...`);
+  IO.write(`\n`);
+  bot.logout();
+  IO.write(`Goodbye!`);
+  IO.write(`\n`);
+  process.exit(0);
+});
 
 // //To be or not to be otter day. That is the question.
 // schedule.scheduleJob("0 0 * * *", () => {
