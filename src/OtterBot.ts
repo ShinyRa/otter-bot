@@ -3,9 +3,12 @@ import { Client } from "discord.js";
 import DotenvParser from "./utils/DotenvParser";
 // import deepai from "deepai";
 import axios from "axios";
+import { OtterLogger } from "./utils/logger/OtterLogger";
+import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
 export default class OtterBot {
-  environment: string;
+  logger: OtterLogger;
+
   client: Client;
   FULL_DAY: number = 23;
   FULL_MINUTE: number = 60;
@@ -15,19 +18,31 @@ export default class OtterBot {
 
   PREFIX: string = "?";
 
-  constructor(environment: string) {
-    this.environment = environment;
-    this.dotenvParser = new DotenvParser(this.environment);
+  constructor(logger: OtterLogger) {
+    this.logger = logger;
+    this.dotenvParser = new DotenvParser();
     this.client = new Client();
 
     this.client
       .login(this.dotenvParser.get("API_KEY"))
-      .then(() => this.listenForCommands())
-      .finally(() =>
+      .catch((err) => {
+        this.logger.report(err.message, ActivityStatusEnum.ERROR);
+        this.logger.report("Unable to log in", ActivityStatusEnum.ERROR);
+      })
+      .finally(() => {
+        this.listenForCommands();
         this.client.user?.setActivity(
-          `Running in ${this.environment} environment`
-        )
-      );
+          `Running in ${process.env.NODE_ENV} environment`
+        );
+      });
+
+    this.client.on("ready", () => {
+      this.logger.report(`Logged in as ${this.client.user?.tag}!`);
+    });
+
+    this.client.on("error", (err) => {
+      this.logger.report(err.message, ActivityStatusEnum.ERROR);
+    });
   }
 
   listenForCommands() {
