@@ -1,7 +1,6 @@
 import { Client } from "discord.js";
-
+import { version } from "../package.json";
 import DotenvParser from "./utils/DotenvParser";
-// import deepai from "deepai";
 import axios from "axios";
 import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
@@ -32,7 +31,7 @@ export default class OtterBot {
       .finally(() => {
         this.listenForCommands();
         this.client.user?.setActivity(
-          `Running in ${process.env.NODE_ENV} environment`
+          `[${version}] in ${process.env.NODE_ENV} environment!`
         );
       });
 
