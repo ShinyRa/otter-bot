@@ -1,0 +1,12 @@
+assets
+logs
+node_modules
+
+.example.env
+package-lock.json
+yarn.lock
+README.md
+yarn-error.log
+
+.git
+.gitignore
