@@ -1,4 +1,4 @@
-FROM node:14-stretch
+FROM arm32v7/node
 
 # Set workdir to /app
 WORKDIR /app
