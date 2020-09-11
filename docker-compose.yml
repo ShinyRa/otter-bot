@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  otterbot:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - API_KEY=${API_KEY}
+      - DEEP_AI_KEY=${DEEP_AI_KEY}
+      - PIXABAY_KEY=${PIXABAY_KEY}

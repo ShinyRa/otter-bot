@@ -1,8 +1,9 @@
-assets/*
-logs/*
-node_modules/*
+assets/
+logs/
+node_modules/
 
 package-lock.json
+*.env
 *.log
 *.lock
 *.md
