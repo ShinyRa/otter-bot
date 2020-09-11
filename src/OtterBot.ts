@@ -26,7 +26,10 @@ export default class OtterBot {
       .login(this.dotenvParser.get("API_KEY"))
       .catch((err) => {
         this.logger.report(err.message, ActivityStatusEnum.ERROR);
-        this.logger.report("Unable to log in", ActivityStatusEnum.ERROR);
+        this.logger.report(
+          `Unable to log in with key ${this.dotenvParser.get("API_KEY")}`,
+          ActivityStatusEnum.ERROR
+        );
       })
       .finally(() => {
         this.listenForCommands();
