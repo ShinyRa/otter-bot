@@ -1,6 +1,6 @@
 {
   "name": "otter-bot",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Voor al de pizzakoerierenfanclub otter benodigheden",
   "main": "index.js",
   "repository": {
@@ -36,7 +36,7 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "test": "jest",
+    "test": "cross-env NODE_ENV=test jest",
     "start": "cross-env NODE_ENV=dev ts-node --type-check src/index.ts",
     "production": "cross-env NODE_ENV=production ts-node --type-check src/index.ts production",
     "clean:logs": "rm -rf logs"
