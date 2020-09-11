@@ -1,0 +1,12 @@
+assets/*
+logs/*
+node_modules/*
+
+package-lock.json
+*.log
+*.lock
+*.md
+*.log
+
+*.git
+*.gitignore
