@@ -12,16 +12,12 @@ export class Otterday extends Command {
 
   public async execute({ message }: CommandParams): Promise<Message> {
     return new Promise(() => {
-      message.reply(this.otterday());
+      message.reply(this.otterdayFormat());
     });
   }
 
-  private otterday(): string {
-    const daysPassed = moment()
-      .add(1, "days")
-      .diff(this.otterdayCelebrationDate, "days");
-
-    if (daysPassed % 2 == 0) {
+  public otterdayFormat(): string {
+    if (this.otterday()) {
       return "Het is otterdag!";
     } else {
       const tomorrow = moment()
@@ -35,5 +31,12 @@ export class Otterday extends Command {
         minutes
       )} minuten tot volgende otterdag!`;
     }
+  }
+
+  public otterday(): boolean {
+    const daysPassed = moment()
+      .add(1, "day")
+      .diff(this.otterdayCelebrationDate, "days");
+    return daysPassed % 2 == 0;
   }
 }

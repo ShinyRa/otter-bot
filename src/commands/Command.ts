@@ -1,4 +1,3 @@
-import { OtterLogger } from "../utils/logger/OtterLogger";
 import { Message } from "discord.js";
 
 export type CommandParams = {

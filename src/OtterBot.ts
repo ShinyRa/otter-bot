@@ -1,31 +1,33 @@
 import { Client, Message } from "discord.js";
 import { version } from "../package.json";
 import DotenvParser from "./utils/DotenvParser";
-import axios from "axios";
 import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 import { Command } from "./commands/Command";
 import { Help } from "./commands/Help";
 import { Otterday } from "./commands/Otterday";
+import { Otter } from "./commands/Otter";
+import { Whodis } from "./commands/Whodis";
+import { Howmanyotterdays } from "./commands/Howmanyotterdays";
 
 export default class OtterBot {
   logger: OtterLogger;
-
-  client: Client;
-  FULL_DAY: number = 23;
-  FULL_MINUTE: number = 60;
-
   dotenvParser: DotenvParser;
+  client: Client;
 
   PREFIX: string = "?";
-  commands: Map<string, Command> = new Map<string, Command>();
+  commands: Map<string, any> = new Map<string, any>();
 
   constructor(logger: OtterLogger) {
     this.logger = logger;
     this.dotenvParser = new DotenvParser();
     this.client = new Client();
+
     this.commands.set("help", new Help());
     this.commands.set("otterdag", new Otterday());
+    this.commands.set("otter", new Otter(this.dotenvParser));
+    this.commands.set("whodis", new Whodis());
+    this.commands.set("hoeveelotterdagen", new Howmanyotterdays());
 
     this.client
       .login(this.dotenvParser.get("API_KEY"))
@@ -50,6 +52,11 @@ export default class OtterBot {
     this.client.on("error", (err) => {
       this.logger.report(err.message, ActivityStatusEnum.ERROR);
     });
+
+    setInterval(() => {
+      const bot = this.client.user;
+      bot?.setActivity(this.commands.get("otterdag")?.otterdayFormat());
+    }, 60000);
   }
 
   listenForCommands() {
@@ -61,84 +68,42 @@ export default class OtterBot {
 
       if (command instanceof Command) {
         this.logger.report(
-          `Executing command "${msg.content}", for user ${msg.author.username}`
+          `Executing command "${msg.content}", for user ${msg.author.tag}`
         );
         command
           .execute({ message: msg })
           .then(() => {
             this.logger.report(
-              `Completed command "${msg.content}", for user ${msg.author.username}`
+              `Completed command "${msg.content}", for user ${msg.author.tag}`
             );
           })
           .catch((error) => {
             this.logger.report(
-              `Failed to execute command "${msg.content}", for user ${msg.author.username}`,
+              `Failed to execute command "${msg.content}", for user ${msg.author.tag}`,
               ActivityStatusEnum.ERROR
             );
             this.logger.report(`${error}`, ActivityStatusEnum.ERROR);
           });
       } else {
-        msg.reply(`Ik ken het commando ""${msg.content}"" niet 😢`);
+        msg.reply(`Ik ken het commando "${msg.content}" niet 😢`);
         this.logger.report(
-          `Couldn't find command "${msg.content}", for user ${msg.author.username}`
+          `Couldn't find command "${msg.content}", for user ${msg.author.tag}`
         );
       }
 
-      //   case "?otterdag":
-      //     msg.reply(this.TTOD());
-      //     break;
-
-      //   // case "?rareotter":
-      //   //   try {
-      //   //     const url = await this.getDeepAiOtter();
-      //   //     msg.reply("Wow deze heb ik nog nooit gezien!", { files: [url] });
-      //   //   } catch (error) {
-      //   //     console.log(error);
-      //   //   }
-      //   //   break;
-
-      //   case "?rareotter":
-      //     msg.reply("Dit commando doet het eventjes niet 😢");
-      //     break;
+      // case "?rareotter":
+      //   try {
+      //     const url = await this.getDeepAiOtter();
+      //     msg.reply("Wow deze heb ik nog nooit gezien!", { files: [url] });
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      //   break;
 
       //   case "?hoeveelotterdagen":
       //     msg.reply(this.upTimeBot());
       //     break;
-
-      //   case "?whodis":
-      //     msg.reply("Ik ben tot leven gewekt door Tijs en Auke!");
-      //     break;
-
-      //   case "?otter":
-      //     try {
-      //       const url = await this.getOtterPic();
-      //       msg.reply("Hier, een mooie otter pic!", { files: [url] });
-      //     } catch (error) {
-      //       console.log(error);
-      //     }
-      //     break;
-      // }
     });
-  }
-
-  /**
-   * This gets a fresh new otter pic from cutestpaw.com
-   */
-  async getOtterPic() {
-    try {
-      let randompage = Math.floor(Math.random() * 10) + 1;
-      const response = await axios.get(
-        `https://pixabay.com/api/?key=${this.dotenvParser.get(
-          "PIXABAY_KEY"
-        )}&q=otter&image_type=photo&per_page=20&page=` +
-          randompage +
-          ""
-      );
-      let randomPicture = Math.floor(Math.random() * response.data.hits.length);
-      return response.data.hits[randomPicture].webformatURL;
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   public logout() {
