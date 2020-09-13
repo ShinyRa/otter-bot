@@ -6,6 +6,7 @@ import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 import { Command } from "./commands/Command";
 import { Help } from "./commands/Help";
+import { Otterday } from "./commands/Otterday";
 
 export default class OtterBot {
   logger: OtterLogger;
@@ -14,7 +15,6 @@ export default class OtterBot {
   FULL_DAY: number = 23;
   FULL_MINUTE: number = 60;
 
-  isOtterday: boolean = false;
   dotenvParser: DotenvParser;
 
   PREFIX: string = "?";
@@ -25,6 +25,7 @@ export default class OtterBot {
     this.dotenvParser = new DotenvParser();
     this.client = new Client();
     this.commands.set("help", new Help());
+    this.commands.set("otterdag", new Otterday());
 
     this.client
       .login(this.dotenvParser.get("API_KEY"))
@@ -82,11 +83,6 @@ export default class OtterBot {
           `Couldn't find command "${msg.content}", for user ${msg.author.username}`
         );
       }
-
-      // switch (msg.content) {
-      //   case "?help":
-      //     msg
-      //     break;
 
       //   case "?otterdag":
       //     msg.reply(this.TTOD());
@@ -147,26 +143,6 @@ export default class OtterBot {
 
   public logout() {
     this.client.destroy();
-  }
-
-  /**
-   * Time Till Otter Day
-   */
-  TTOD() {
-    //!!NOTE!! When it reaches a new hour it displays for example 16 hours and 60 minutes. Should be 17 hours.
-    if (this.isOtterday) {
-      return "Het is al Otter dag!";
-    } else {
-      let currentHour = new Date().getHours();
-      let currentMinute = new Date().getMinutes();
-      return (
-        "nog maar " +
-        (this.FULL_DAY - currentHour) +
-        " uur en " +
-        (this.FULL_MINUTE - currentMinute) +
-        " minuten tot de nieuwe otter dag!"
-      );
-    }
   }
 
   /**

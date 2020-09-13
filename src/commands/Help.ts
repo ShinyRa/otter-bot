@@ -1,5 +1,4 @@
 import { Message } from "discord.js";
-import { OtterLogger } from "../utils/logger/OtterLogger";
 import { Command, CommandParams } from "./Command";
 
 export class Help extends Command {
