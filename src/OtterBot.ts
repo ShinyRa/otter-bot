@@ -1,9 +1,11 @@
-import { Client } from "discord.js";
+import { Client, Message } from "discord.js";
 import { version } from "../package.json";
 import DotenvParser from "./utils/DotenvParser";
 import axios from "axios";
 import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
+import { Command } from "./commands/Command";
+import { Help } from "./commands/Help";
 
 export default class OtterBot {
   logger: OtterLogger;
@@ -16,11 +18,13 @@ export default class OtterBot {
   dotenvParser: DotenvParser;
 
   PREFIX: string = "?";
+  commands: Map<string, Command> = new Map<string, Command>();
 
   constructor(logger: OtterLogger) {
     this.logger = logger;
     this.dotenvParser = new DotenvParser();
     this.client = new Client();
+    this.commands.set("help", new Help());
 
     this.client
       .login(this.dotenvParser.get("API_KEY"))
@@ -48,57 +52,76 @@ export default class OtterBot {
   }
 
   listenForCommands() {
-    this.client.on("message", async (msg) => {
+    this.client.on("message", async (msg: Message) => {
       if (!msg.content.startsWith(this.PREFIX)) return;
 
-      switch (msg.content) {
-        case "?help":
-          msg.author.send(
-            "Hier komt wat Otter wijsheid!\n\n" +
-              "**?help**: Geeft informatie over het gebruik van de Otter-bot! (op het moment alleen de commands)\n" +
-              "**?otterdag**: Ehhhhh wanneer is het otterdag dan?!\n" +
-              "**?rareotter**: Geeft een otter foto gegenereerd door DeepAi\n" +
-              "**?hoeveelotterdagen**: Hoeveel otterdagen zijn er al geweest sinds de launch van Otter-bot?\n" +
-              "**?whodis**: Geeft wat info over de gezellige codeurs!\n" +
-              "**?otter**: Geeft een mooie otter foto!\n\n" +
-              "Waar wacht je nog op! ga praten met de otter in het otter kanaal!"
-          );
-          break;
+      let identifier = msg.content.substring(1);
+      let command = this.commands.get(identifier);
 
-        case "?otterdag":
-          msg.reply(this.TTOD());
-          break;
-
-        // case "?rareotter":
-        //   try {
-        //     const url = await this.getDeepAiOtter();
-        //     msg.reply("Wow deze heb ik nog nooit gezien!", { files: [url] });
-        //   } catch (error) {
-        //     console.log(error);
-        //   }
-        //   break;
-
-        case "?rareotter":
-          msg.reply("Dit commando doet het eventjes niet 😢");
-          break;
-
-        case "?hoeveelotterdagen":
-          msg.reply(this.upTimeBot());
-          break;
-
-        case "?whodis":
-          msg.reply("Ik ben tot leven gewekt door Tijs en Auke!");
-          break;
-
-        case "?otter":
-          try {
-            const url = await this.getOtterPic();
-            msg.reply("Hier, een mooie otter pic!", { files: [url] });
-          } catch (error) {
-            console.log(error);
-          }
-          break;
+      if (command instanceof Command) {
+        this.logger.report(
+          `Executing command "${msg.content}", for user ${msg.author.username}`
+        );
+        command
+          .execute({ message: msg })
+          .then(() => {
+            this.logger.report(
+              `Completed command "${msg.content}", for user ${msg.author.username}`
+            );
+          })
+          .catch((error) => {
+            this.logger.report(
+              `Failed to execute command "${msg.content}", for user ${msg.author.username}`,
+              ActivityStatusEnum.ERROR
+            );
+            this.logger.report(`${error}`, ActivityStatusEnum.ERROR);
+          });
+      } else {
+        msg.reply(`Ik ken het commando ""${msg.content}"" niet 😢`);
+        this.logger.report(
+          `Couldn't find command "${msg.content}", for user ${msg.author.username}`
+        );
       }
+
+      // switch (msg.content) {
+      //   case "?help":
+      //     msg
+      //     break;
+
+      //   case "?otterdag":
+      //     msg.reply(this.TTOD());
+      //     break;
+
+      //   // case "?rareotter":
+      //   //   try {
+      //   //     const url = await this.getDeepAiOtter();
+      //   //     msg.reply("Wow deze heb ik nog nooit gezien!", { files: [url] });
+      //   //   } catch (error) {
+      //   //     console.log(error);
+      //   //   }
+      //   //   break;
+
+      //   case "?rareotter":
+      //     msg.reply("Dit commando doet het eventjes niet 😢");
+      //     break;
+
+      //   case "?hoeveelotterdagen":
+      //     msg.reply(this.upTimeBot());
+      //     break;
+
+      //   case "?whodis":
+      //     msg.reply("Ik ben tot leven gewekt door Tijs en Auke!");
+      //     break;
+
+      //   case "?otter":
+      //     try {
+      //       const url = await this.getOtterPic();
+      //       msg.reply("Hier, een mooie otter pic!", { files: [url] });
+      //     } catch (error) {
+      //       console.log(error);
+      //     }
+      //     break;
+      // }
     });
   }
 
@@ -122,7 +145,7 @@ export default class OtterBot {
     }
   }
 
-  logout() {
+  public logout() {
     this.client.destroy();
   }
 

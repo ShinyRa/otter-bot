@@ -9,7 +9,7 @@ export class Activity {
   constructor(message: string, status?: ActivityStatusEnum) {
     this.message = message;
     this.time = moment().format("MMMM Do YYYY, h:mm:ss a");
-    this.status = status || ActivityStatusEnum.OK;
+    this.status = status || ActivityStatusEnum.INFO;
   }
 
   getFormatted(): string {
@@ -23,15 +23,6 @@ export class Activity {
   }
 
   getSeverity(): string {
-    switch (this.status) {
-      case ActivityStatusEnum.ERROR:
-        return "error";
-      case ActivityStatusEnum.REQUIRES_ATTENTION:
-        return "warn";
-      case ActivityStatusEnum.OK:
-        return "info";
-      default:
-        return "error";
-    }
+    return ActivityStatusEnum[this.status].toLowerCase() || "error";
   }
 }

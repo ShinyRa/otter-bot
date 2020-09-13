@@ -9,4 +9,5 @@ services:
       - API_KEY=${API_KEY}
       - DEEP_AI_KEY=${DEEP_AI_KEY}
       - PIXABAY_KEY=${PIXABAY_KEY}
-    image: bruhgaming/otter-bot:v0.4.3 # Change with package.json version if pushing to dockerhub
+    image: bruhgaming/otter-bot:v0.4.4
+    container_name: otter-bot

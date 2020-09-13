@@ -13,4 +13,4 @@ RUN yarn install
 RUN yarn test
 
 # Run in productionmode
-CMD ["yarn", "production"]
+CMD ["yarn", "start:production"]

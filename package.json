@@ -1,6 +1,6 @@
 {
   "name": "otter-bot",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Voor al de pizzakoerierenfanclub otter benodigheden",
   "main": "index.js",
   "repository": {
@@ -31,14 +31,20 @@
   "devDependencies": {
     "@types/jest": "^26.0.8",
     "jest": "^26.2.2",
-    "ts-jest": "^26.1.4",
     "ts-node": "^8.10.2",
+    "ts-jest": "^26.1.4",
     "typescript": "^3.9.7"
   },
   "scripts": {
+    "start": "cross-env NODE_ENV=dev yarn run:server",
+    "start:production": "cross-env NODE_ENV=production yarn run:server",
+    "run:server": "ts-node --type-check src/index.ts",
     "test": "cross-env NODE_ENV=test jest",
-    "start": "cross-env NODE_ENV=dev ts-node --type-check src/index.ts",
-    "production": "cross-env NODE_ENV=production ts-node --type-check src/index.ts production",
-    "clean:logs": "rm -rf logs"
+    "clean": "rm -rf logs && rm -rf node_modules && rm yarn.lock && yarn install",
+    "clean:restart:dev": "yarn clean && yarn start:dev",
+    "clean:restart:production": "yarn clean && yarn start:production",
+    "logs:clean": "rm -rf ./logs",
+    "launch": "docker pull bruhgaming/otter-bot:latest && docker run -d --env-file .env bruhgaming/otter-bot",
+    "push": "docker-compose rm -f && docker-compose up --force-recreate && docker commit otter-bot && docker push bruhgaming/otter-bot"
   }
 }

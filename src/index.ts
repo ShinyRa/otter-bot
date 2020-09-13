@@ -3,7 +3,6 @@ import readline from "readline";
 import OtterBot from "./OtterBot";
 import { version } from "../package.json";
 import { OtterLogger } from "./utils/logger/OtterLogger";
-import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
 const ENV = process.env.NODE_ENV || "";
 const IO = readline.createInterface(process.stdin, process.stdout);

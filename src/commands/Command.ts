@@ -1,10 +1,9 @@
 import { OtterLogger } from "../utils/logger/OtterLogger";
+import { Message } from "discord.js";
 
+export type CommandParams = {
+  message: Message;
+};
 export abstract class Command {
-  logger: OtterLogger;
-  constructor(logger: OtterLogger) {
-    this.logger = logger;
-  }
-
-  abstract execute(params: Array<any>): void;
+  abstract async execute(params: CommandParams): Promise<Message>;
 }
