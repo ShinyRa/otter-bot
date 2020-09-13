@@ -44,7 +44,7 @@
     "clean:restart:dev": "yarn clean && yarn start:dev",
     "clean:restart:production": "yarn clean && yarn start:production",
     "logs:clean": "rm -rf ./logs",
-    "launch": "docker pull bruhgaming/otter-bot:latest && docker run -d --env-file .env bruhgaming/otter-bot",
-    "push": "docker-compose rm -f && docker-compose up --force-recreate && docker commit otter-bot && docker push bruhgaming/otter-bot"
+    "docker:launch": "docker pull bruhgaming/otter-bot:latest && docker run -d --env-file .env bruhgaming/otter-bot",
+    "docker:push": "docker-compose rm -f && docker-compose up --detach --force-recreate && docker commit otter-bot && docker push bruhgaming/otter-bot"
   }
 }
