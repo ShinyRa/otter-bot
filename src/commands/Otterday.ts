@@ -34,9 +34,7 @@ export class Otterday extends Command {
   }
 
   public otterday(): boolean {
-    const daysPassed = moment()
-      .add(1, "day")
-      .diff(this.otterdayCelebrationDate, "days");
+    const daysPassed = moment().diff(this.otterdayCelebrationDate, "days");
     return daysPassed % 2 == 0;
   }
 }

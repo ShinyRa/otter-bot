@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import axios from "axios";
+import FormData from "form-data";
 
 import { Command, CommandParams } from "./Command";
 import DotenvParser from "../utils/DotenvParser";
@@ -13,9 +14,9 @@ export class Weirdotter extends Command {
 
   public async execute({ message }: CommandParams): Promise<Message> {
     return new Promise(() => {
-      this.getOtterPic()
+      this.getDeepAiOtter()
         .then((result) => {
-          message.reply("Hier, een mooie otter pic!", {
+          message.reply("Hier, een rare otter pic!", {
             files: [result],
           });
         })
@@ -25,14 +26,16 @@ export class Weirdotter extends Command {
     });
   }
 
-  private async getOtterPic(): Promise<string> {
-    const randompage = Math.floor(Math.random() * 10) + 1;
-    const response = await axios.get(
-      `https://pixabay.com/api/?key=${this.dotenvParser.get(
-        "PIXABAY_KEY"
-      )}&q=otter&image_type=photo&per_page=20&page=${randompage}`
-    );
-    const randomPicture = Math.floor(Math.random() * response.data.hits.length);
-    return response.data.hits[randomPicture].webformatURL;
+  /**
+   * Generates a otter via the DeepAI algorithm
+   */
+  async getDeepAiOtter() {
+    const response = await axios({
+      method: "post",
+      url: `https://api.deepai.org/api/text2img`,
+      headers: { "api-key": this.dotenvParser.get("DEEP_AI_KEY") },
+      data: "text=otter",
+    });
+    return response.data.output_url;
   }
 }

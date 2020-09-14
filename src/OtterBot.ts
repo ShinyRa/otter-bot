@@ -3,12 +3,17 @@ import { version } from "../package.json";
 import DotenvParser from "./utils/DotenvParser";
 import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
-import { Command } from "./commands/Command";
-import { Help } from "./commands/Help";
-import { Otterday } from "./commands/Otterday";
-import { Otter } from "./commands/Otter";
-import { Whodis } from "./commands/Whodis";
-import { Howmanyotterdays } from "./commands/Howmanyotterdays";
+
+import {
+  Command,
+  Help,
+  Otterday,
+  Otter,
+  Whodis,
+  Howmanyotterdays,
+  Weirdotter,
+  Otterornot,
+} from "./commands";
 
 export default class OtterBot {
   logger: OtterLogger;
@@ -28,6 +33,8 @@ export default class OtterBot {
     this.commands.set("otter", new Otter(this.dotenvParser));
     this.commands.set("whodis", new Whodis());
     this.commands.set("hoeveelotterdagen", new Howmanyotterdays());
+    this.commands.set("rareotter", new Weirdotter(this.dotenvParser));
+    this.commands.set("otterornot", new Otterornot());
 
     this.client
       .login(this.dotenvParser.get("API_KEY"))
@@ -47,58 +54,49 @@ export default class OtterBot {
 
     this.client.on("ready", () => {
       this.logger.report(`Logged in as ${this.client.user?.tag}!`);
+      setInterval(() => {
+        this.client.user?.setActivity(
+          this.commands.get("otterdag")?.otterdayFormat()
+        );
+      }, 60000);
     });
 
     this.client.on("error", (err) => {
       this.logger.report(err.message, ActivityStatusEnum.ERROR);
     });
-
-    setInterval(() => {
-      const bot = this.client.user;
-      bot?.setActivity(this.commands.get("otterdag")?.otterdayFormat());
-    }, 60000);
   }
 
   listenForCommands() {
-    this.client.on("message", async (msg: Message) => {
-      if (!msg.content.startsWith(this.PREFIX)) return;
+    this.client.on("message", async (message: Message) => {
+      if (!message.content.startsWith(this.PREFIX)) return;
 
-      let identifier = msg.content.substring(1);
-      let command = this.commands.get(identifier);
+      const identifier = message.content.substring(1);
+      const command = this.commands.get(identifier);
 
       if (command instanceof Command) {
         this.logger.report(
-          `Executing command "${msg.content}", for user ${msg.author.tag}`
+          `Executing command "${message.content}", for user ${message.author.tag}`
         );
         command
-          .execute({ message: msg })
+          .execute({ message: message })
           .then(() => {
             this.logger.report(
-              `Completed command "${msg.content}", for user ${msg.author.tag}`
+              `Completed command "${message.content}", for user ${message.author.tag}`
             );
           })
           .catch((error) => {
             this.logger.report(
-              `Failed to execute command "${msg.content}", for user ${msg.author.tag}`,
+              `Failed to execute command "${message.content}", for user ${message.author.tag}`,
               ActivityStatusEnum.ERROR
             );
             this.logger.report(`${error}`, ActivityStatusEnum.ERROR);
           });
       } else {
-        msg.reply(`Ik ken het commando "${msg.content}" niet 😢`);
+        message.reply(`Ik ken het commando "${message.content}" niet 😢`);
         this.logger.report(
-          `Couldn't find command "${msg.content}", for user ${msg.author.tag}`
+          `Couldn't find command "${message.content}", for user ${message.author.tag}`
         );
       }
-
-      // case "?rareotter":
-      //   try {
-      //     const url = await this.getDeepAiOtter();
-      //     msg.reply("Wow deze heb ik nog nooit gezien!", { files: [url] });
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      //   break;
 
       //   case "?hoeveelotterdagen":
       //     msg.reply(this.upTimeBot());
@@ -122,15 +120,4 @@ export default class OtterBot {
     let seconds = Math.floor(totalSeconds % 60);
     return `Deze otter is al ${days} dagen, ${hours} uur, ${minutes} minuten en ${seconds} seconden aan het werk!`;
   }
-
-  //   /**
-  //    * Generates a otter via the DeepAI algorithm
-  //    */
-  //   async getDeepAiOtter() {
-  //     deepai.setApiKey(this.dotenvParser.get("DEEP_AI_KEY"));
-  //     const resp = await deepai.callStandardApi("text2img", {
-  //       text: "otter",
-  //     });
-  //     return resp.output_url;
-  //   }
 }
