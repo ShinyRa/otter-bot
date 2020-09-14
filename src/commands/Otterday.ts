@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { Command, CommandParams } from "./Command";
-import moment, { Moment } from "moment";
+import moment, { Moment } from "moment-timezone";
 
 export class Otterday extends Command {
   private otterdayCelebrationDate: Moment;
@@ -21,10 +21,13 @@ export class Otterday extends Command {
       return "Het is otterdag!";
     } else {
       const tomorrow = moment()
+        .tz("Europe/Amsterdam")
         .add(1, "days")
         .set({ hour: 0, minute: 0, second: 0 });
 
-      const diff = moment.duration(tomorrow.diff(moment()));
+      const diff = moment.duration(
+        tomorrow.diff(moment().tz("Europe/Amsterdam"))
+      );
       const hours = diff.asMinutes() / 60;
       const minutes = diff.asMinutes() - Math.floor(hours) * 60;
       return `Nog maar ${Math.floor(hours)} uur en ${Math.ceil(
@@ -34,7 +37,9 @@ export class Otterday extends Command {
   }
 
   public otterday(): boolean {
-    const daysPassed = moment().diff(this.otterdayCelebrationDate, "days");
+    const daysPassed = moment()
+      .tz("Europe/Amsterdam")
+      .diff(this.otterdayCelebrationDate, "days");
     return daysPassed % 2 == 0;
   }
 }
