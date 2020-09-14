@@ -37,9 +37,9 @@
     "start:production": "cross-env NODE_ENV=production yarn run:server",
     "run:server": "ts-node --type-check src/index.ts",
     "test": "cross-env NODE_ENV=test jest",
-    "clean": "rm -rf logs && rm -rf node_modules && rm yarn.lock && yarn install",
-    "clean:restart:dev": "yarn clean && yarn start:dev",
-    "clean:restart:production": "yarn clean && yarn start:production",
+    "clean": "rm -rf logs && rm -rf node_modules && rm yarn.lock",
+    "clean:restart:dev": "yarn clean && yarn install && yarn start:dev",
+    "clean:restart:production": "yarn clean && yarn install && yarn start:production",
     "logs:clean": "rm -rf ./logs",
     "docker:launch": "docker run -d --env-file .env bruhgaming/otter-bot:latest",
     "docker:compose": "docker-compose rm -f && docker-compose up --detach --force-recreate && docker commit otter-bot && docker push bruhgaming/otter-bot"

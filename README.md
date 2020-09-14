@@ -10,8 +10,7 @@ https://trello.com/b/BLeuD8bv/otter-bot
 
 [Discord.js](https://discord.js.org/#/) >= 12,  
 [Nodejs](https://nodejs.org/en/) >= 14.6.0,  
-[Axios](https://www.npmjs.com/package/axios) >=0.19.2,  
-[deepaiAPI](https://deepai.org/) >=1.0.15,  
+[Axios](https://www.npmjs.com/package/axios) >=0.19.2,
 
 # Contributors
 
