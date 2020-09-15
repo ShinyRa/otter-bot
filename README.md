@@ -5,22 +5,22 @@ For that we shall never forget the reason of otter-bots existance.
 
 # Commands
 
-- **?help**: Gives a list of commands
-- **?otterday**: Ehhhhh wanneer is het otterdag dan?!
-- **?weirdotter**: Geeft een otter foto gegenereerd door DeepAi
-- **?howmanyotterdays**: Hoeveel otterdagen zijn er al geweest sinds de launch van Otter-bot?
-- **?whodis**: Geeft wat info over de gezellige codeurs!
-- **?otter**: Geeft een mooie otter foto!
+- **?help**: Gives a list of commands.
+- **?otterday**: Is it otterday?
+- **?otter**: Gives an otterpic.
+- **?weirdotter**: GIves a weird looking otterpic.
+- **?howmanyotterdays**: How many otterdays have passed?
+- **?whodis**: Gives some info about the coders!
 
 # Backlog
 
-Find the things that have been on our minds here
+Find the things that have been on our minds here.
 
 https://trello.com/b/BLeuD8bv/otter-bot
 
 # Resources
 
-We use a couple of cool libraries to develop otter-bot
+We use a couple of cool libraries to develop otter-bot:
 
 ### Built with
 
@@ -45,7 +45,8 @@ We use a couple of cool libraries to develop otter-bot
 
 | ![Tijs](./assets/Tijs.png)           | ![Auke](./assets/Auke.png)                |
 | ------------------------------------ | ----------------------------------------- |
-| Tijs de Graaff (shinyra)             | Auke Steenman (postellaar)                |
+| Tijs de Graaff                       | Auke Steenman                             |
+| _shinyra_                            | _postellaar_                              |
 | [GitHub](https://github.com/ShinyRa) | [GitHub](https://github.com/AukeSteenman) |
 
 # Discord
