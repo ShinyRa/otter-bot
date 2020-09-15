@@ -1,4 +1,3 @@
-// import { scheduleJob } from "node-schedule";
 import readline from "readline";
 import OtterBot from "./OtterBot";
 import { version } from "../package.json";
