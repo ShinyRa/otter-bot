@@ -1,6 +1,5 @@
 import { Client, Message } from "discord.js";
 import { version } from "../package.json";
-// import DotenvParser from "./utils/DotenvParser";
 import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
