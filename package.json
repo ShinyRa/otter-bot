@@ -19,10 +19,8 @@
   "dependencies": {
     "@types/node": "^14.0.27",
     "axios": "^0.19.2",
-    "cross-env": "^7.0.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
-    "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
     "winston": "^3.3.3"
   },
@@ -34,10 +32,10 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=dev yarn run:server",
-    "start:production": "cross-env NODE_ENV=production yarn run:server",
-    "run:server": "ts-node --type-check src/index.ts",
-    "test": "cross-env NODE_ENV=test jest",
+    "start": "yarn run:server dotenv_config_path=.env",
+    "start:production": "yarn run:server dotenv_config_path=.env.production",
+    "run:server": "ts-node --type-check -r dotenv/config src/index.ts",
+    "test": "jest",
     "clean": "rm -rf logs && rm -rf node_modules && rm yarn.lock",
     "clean:restart:dev": "yarn clean && yarn install && yarn start:dev",
     "clean:restart:production": "yarn clean && yarn install && yarn start:production",

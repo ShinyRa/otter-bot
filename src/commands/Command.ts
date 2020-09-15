@@ -5,5 +5,7 @@ export type CommandParams = {
 };
 
 export abstract class Command {
-  abstract async execute(params: CommandParams): Promise<Message>;
+  abstract async execute(
+    params: CommandParams
+  ): Promise<Message | Array<Message>>;
 }

@@ -3,9 +3,8 @@ import { Command, CommandParams } from "./Command";
 
 export class Help extends Command {
   public async execute({ message }: CommandParams): Promise<Message> {
-    return new Promise(() => {
-      message.author.send(
-        String.raw`
+    return message.author.send(
+      String.raw`
       Hier komt wat Otter wijsheid!
       
       **?help**: Geeft informatie over het gebruik van de Otter-bot! (op het moment alleen de commands)
@@ -16,7 +15,6 @@ export class Help extends Command {
       **?otter**: Geeft een mooie otter foto!
       
       Waar wacht je nog op! ga praten met de otter in het otter kanaal!`
-      );
-    });
+    );
   }
 }

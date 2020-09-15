@@ -1,17 +1,9 @@
 import { Message } from "discord.js";
 import axios from "axios";
-import FormData from "form-data";
 
 import { Command, CommandParams } from "./Command";
-import DotenvParser from "../utils/DotenvParser";
 
 export class Weirdotter extends Command {
-  dotenvParser: DotenvParser;
-  constructor(dotenvParser: DotenvParser) {
-    super();
-    this.dotenvParser = dotenvParser;
-  }
-
   public async execute({ message }: CommandParams): Promise<Message> {
     return new Promise(() => {
       this.getDeepAiOtter()
@@ -33,7 +25,7 @@ export class Weirdotter extends Command {
     const response = await axios({
       method: "post",
       url: `https://api.deepai.org/api/text2img`,
-      headers: { "api-key": this.dotenvParser.get("DEEP_AI_KEY") },
+      headers: { "api-key": process.env.DEEP_AI_KEY },
       data: "text=otter",
     });
     return response.data.output_url;

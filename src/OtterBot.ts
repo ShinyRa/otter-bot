@@ -1,6 +1,5 @@
 import { Client, Message } from "discord.js";
 import { version } from "../package.json";
-import DotenvParser from "./utils/DotenvParser";
 import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
@@ -17,7 +16,6 @@ import {
 
 export default class OtterBot {
   logger: OtterLogger;
-  dotenvParser: DotenvParser;
   client: Client;
 
   PREFIX: string = "?";
@@ -25,23 +23,22 @@ export default class OtterBot {
 
   constructor(logger: OtterLogger) {
     this.logger = logger;
-    this.dotenvParser = new DotenvParser();
     this.client = new Client();
 
     this.commands.set("help", new Help());
     this.commands.set("otterdag", new Otterday());
-    this.commands.set("otter", new Otter(this.dotenvParser));
+    this.commands.set("otter", new Otter());
     this.commands.set("whodis", new Whodis());
     this.commands.set("hoeveelotterdagen", new Howmanyotterdays());
-    this.commands.set("rareotter", new Weirdotter(this.dotenvParser));
-    this.commands.set("otterornot", new Otterornot());
+    this.commands.set("rareotter", new Weirdotter());
+    this.commands.set("otterofniet", new Otterornot());
 
     this.client
-      .login(this.dotenvParser.get("API_KEY"))
+      .login(process.env.API_KEY)
       .catch((err) => {
         this.logger.report(err.message, ActivityStatusEnum.ERROR);
         this.logger.report(
-          `Unable to log in with key ${this.dotenvParser.get("API_KEY")}`,
+          `Unable to log in with key ${process.env.NODE_ENV}`,
           ActivityStatusEnum.ERROR
         );
       })
@@ -89,18 +86,9 @@ export default class OtterBot {
               `Failed to execute command "${message.content}", for user ${message.author.tag}`,
               ActivityStatusEnum.ERROR
             );
-            this.logger.report(`${error}`, ActivityStatusEnum.ERROR);
+            this.logger.report(error, ActivityStatusEnum.ERROR);
           });
-      } else {
-        message.reply(`Ik ken het commando "${message.content}" niet 😢`);
-        this.logger.report(
-          `Couldn't find command "${message.content}", for user ${message.author.tag}`
-        );
       }
-
-      //   case "?hoeveelotterdagen":
-      //     msg.reply(this.upTimeBot());
-      //     break;
     });
   }
 

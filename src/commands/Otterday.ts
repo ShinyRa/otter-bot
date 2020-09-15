@@ -11,9 +11,7 @@ export class Otterday extends Command {
   }
 
   public async execute({ message }: CommandParams): Promise<Message> {
-    return new Promise(() => {
-      message.reply(this.otterdayFormat());
-    });
+    return message.reply(this.otterdayFormat());
   }
 
   public otterdayFormat(): string {
