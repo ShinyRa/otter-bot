@@ -86,13 +86,8 @@ export default class OtterBot {
               `Failed to execute command "${message.content}", for user ${message.author.tag}`,
               ActivityStatusEnum.ERROR
             );
-            this.logger.report(`${error}`, ActivityStatusEnum.ERROR);
+            this.logger.report(error, ActivityStatusEnum.ERROR);
           });
-      } else {
-        message.reply(`Ik ken het commando "${message.content}" niet 😢`);
-        this.logger.report(
-          `Couldn't find command "${message.content}", for user ${message.author.tag}`
-        );
       }
     });
   }
