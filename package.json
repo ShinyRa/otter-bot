@@ -1,6 +1,6 @@
 {
   "name": "otter-bot",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Voor al de pizzakoerierenfanclub otter benodigheden",
   "main": "index.js",
   "repository": {
