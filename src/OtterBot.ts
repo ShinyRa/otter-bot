@@ -31,7 +31,7 @@ export default class OtterBot {
     this.commands.set("whodis", new Whodis());
     this.commands.set("hoeveelotterdagen", new Howmanyotterdays());
     this.commands.set("rareotter", new Weirdotter());
-    this.commands.set("otterornot", new Otterornot());
+    this.commands.set("otterofniet", new Otterornot());
 
     this.client
       .login(process.env.API_KEY)

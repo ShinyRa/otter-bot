@@ -11,9 +11,9 @@ export class Howmanyotterdays extends Command {
   }
 
   public async execute({ message }: CommandParams): Promise<Message> {
-    return new Promise(() => {
-      message.reply(`Er zijn al ${this.otterdayCount()} otterdagen geweest!`);
-    });
+    return message.reply(
+      `Er zijn al ${this.otterdayCount()} otterdagen geweest!`
+    );
   }
 
   public otterdayCount(): number {
