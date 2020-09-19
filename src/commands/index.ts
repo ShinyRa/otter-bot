@@ -8,3 +8,4 @@ export { Weirdotter } from "./Weirdotter";
 export { Whodis } from "./Whodis";
 export { Otterornot } from "./Otterornot";
 export { Otterfact } from "./Otterfact";
+export { Otterversion } from "./Otterversion";

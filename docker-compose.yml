@@ -10,5 +10,5 @@ services:
       - API_KEY=${API_KEY}
       - DEEP_AI_KEY=${DEEP_AI_KEY}
       - PIXABAY_KEY=${PIXABAY_KEY}
-    image: bruhgaming/otter-bot:v0.4.8.1
+    image: bruhgaming/otter-bot:v0.4.8.2
     container_name: otter-bot
