@@ -10,7 +10,5 @@ package-lock.json
 yarn.lock
 yarn-error.log
 
-src/*.js
-
 # Everything generated in the logs
-/logs/*
+/logs
