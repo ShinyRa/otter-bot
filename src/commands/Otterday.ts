@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
-import { Command, CommandParams } from "./Command";
 import moment, { Moment } from "moment-timezone";
+
+import { Command, CommandParams } from "./Command";
 
 export class Otterday extends Command {
   private otterdayCelebrationDate: Moment;

@@ -1,21 +1,10 @@
 import { Client, Message } from "discord.js";
+
 import { version } from "../package.json";
 import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
-import {
-  Command,
-  Help,
-  Otterday,
-  Otter,
-  Whodis,
-  Howmanyotterdays,
-  Weirdotter,
-  Otterornot,
-  Otterfact,
-  Otterversion,
-  Pogotter,
-} from "./commands";
+import * as Command from "./commands";
 
 export default class OtterBot {
   logger: OtterLogger;
@@ -28,23 +17,23 @@ export default class OtterBot {
     this.logger = logger;
     this.client = new Client();
 
-    this.commands.set("help", new Help());
-    this.commands.set("otter", new Otter());
-    this.commands.set("otterdag", new Otterday());
-    this.commands.set("hoeveelotterdagen", new Howmanyotterdays());
-    this.commands.set("otterofniet", new Otterornot());
-    this.commands.set("whodis", new Whodis());
-    this.commands.set("rareotter", new Weirdotter());
-    this.commands.set("otterfeit", new Otterfact());
-    this.commands.set("pog", new Pogotter());
-    this.commands.set("versie", new Otterversion());
+    this.commands.set("help", new Command.Help());
+    this.commands.set("otter", new Command.Otter());
+    this.commands.set("otterdag", new Command.Otterday());
+    this.commands.set("hoeveelotterdagen", new Command.Howmanyotterdays());
+    this.commands.set("otterofniet", new Command.Otterornot());
+    this.commands.set("whodis", new Command.Whodis());
+    this.commands.set("rareotter", new Command.Weirdotter());
+    this.commands.set("otterfeit", new Command.Otterfact());
+    this.commands.set("pog", new Command.Pogotter());
+    this.commands.set("versie", new Command.Otterversion());
 
     this.client
       .login(process.env.API_KEY)
       .catch((err) => {
         this.logger.report(err.message, ActivityStatusEnum.ERROR);
         this.logger.report(
-          `Unable to log in with key ${process.env.NODE_ENV}`,
+          `Unable to log in with key ${process.env.API_KEY}`,
           ActivityStatusEnum.ERROR
         );
       })
@@ -69,14 +58,14 @@ export default class OtterBot {
     });
   }
 
-  listenForCommands() {
+  listenForCommands(): void {
     this.client.on("message", async (message: Message) => {
       if (!message.content.startsWith(this.PREFIX)) return;
 
       const identifier = message.content.substring(1);
       const command = this.commands.get(identifier);
 
-      if (command instanceof Command) {
+      if (command instanceof Command.Command) {
         this.logger.report(
           `Executing command "${message.content}", for user ${message.author.tag}`
         );
@@ -98,7 +87,7 @@ export default class OtterBot {
     });
   }
 
-  public logout() {
+  public logout(): void {
     this.logger.report(`Logging out otterbot...`);
     this.client.destroy();
     this.logger.report(`Goodbye!`);
@@ -107,13 +96,13 @@ export default class OtterBot {
   /**
    * Gets the amount of time this server is currently running
    */
-  upTimeBot() {
-    let totalSeconds = this.client.uptime || 0 / 1000;
-    let days = Math.floor(totalSeconds / 86400);
-    let hours = Math.floor(totalSeconds / 3600);
-    totalSeconds %= 3600;
-    let minutes = Math.floor(totalSeconds / 60);
-    let seconds = Math.floor(totalSeconds % 60);
-    return `Deze otter is al ${days} dagen, ${hours} uur, ${minutes} minuten en ${seconds} seconden aan het werk!`;
-  }
+  // upTimeBot(): string {
+  //   let totalSeconds = this.client.uptime || 0 / 1000;
+  //   let days = Math.floor(totalSeconds / 86400);
+  //   let hours = Math.floor(totalSeconds / 3600);
+  //   totalSeconds %= 3600;
+  //   let minutes = Math.floor(totalSeconds / 60);
+  //   let seconds = Math.floor(totalSeconds % 60);
+  //   return `Deze otter is al ${days} dagen, ${hours} uur, ${minutes} minuten en ${seconds} seconden aan het werk!`;
+  // }
 }

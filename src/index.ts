@@ -1,11 +1,10 @@
-import readline from "readline";
 import OtterBot from "./OtterBot";
-import { version } from "../package.json";
-import { OtterLogger } from "./utils/logger/OtterLogger";
 
-const ENV = process.env.NODE_ENV || "";
-const IO = readline.createInterface(process.stdin, process.stdout);
-const logger: OtterLogger = new OtterLogger(IO);
+import { OtterLogger } from "./utils/logger/OtterLogger";
+import { version } from "../package.json";
+
+const ENV = process.env.NODE_ENV;
+const logger: OtterLogger = new OtterLogger();
 
 let welcome: String = String.raw`
 

@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+
 import { Command, CommandParams } from "./Command";
 
 export class Whodis extends Command {

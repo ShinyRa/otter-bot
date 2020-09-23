@@ -1,4 +1,5 @@
 import { Message } from "discord.js";
+
 import { Command, CommandParams } from "./Command";
 import { version } from "../../package.json";
 
