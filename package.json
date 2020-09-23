@@ -1,6 +1,6 @@
 {
   "name": "otter-bot",
-  "version": "0.4.8",
+  "version": "0.4.8.3",
   "description": "Voor al de pizzakoerierenfanclub otter benodigheden",
   "main": "index.js",
   "repository": {
@@ -17,11 +17,12 @@
   },
   "homepage": "https://github.com/ShinyRa/otter-bot",
   "dependencies": {
-    "@types/node": "^14.0.27",
+    "@types/node": "^14.11.1",
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "moment-timezone": "^0.5.31",
+    "random-words": "^1.1.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -40,8 +41,13 @@
     "clean:restart:dev": "yarn clean && yarn install && yarn start:dev",
     "clean:restart:production": "yarn clean && yarn install && yarn start:production",
     "logs:clean": "rm -rf ./logs",
+<<<<<<< HEAD
     "docker:build": "docker-compose rm -f && docker-compose up --detach --force-recreate",
     "docker:launch": "docker run --env-file .env bruhgaming/otter-bot:latest",
     "docker:compose": "docker-compose rm -f && docker-compose up --detach --force-recreate && docker commit otter-bot && docker push bruhgaming/otter-bot"
+=======
+    "docker:launch": "docker run -d --env-file .env bruhgaming/otter-bot:latest",
+    "docker:compose": "docker-compose up --detach --force-recreate && docker commit otter-bot && docker push bruhgaming/otter-bot"
+>>>>>>> 3f3842c2a9add26d94b843c61cdd8d702b125795
   }
 }

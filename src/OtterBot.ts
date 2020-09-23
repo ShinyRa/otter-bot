@@ -12,6 +12,9 @@ import {
   Howmanyotterdays,
   Weirdotter,
   Otterornot,
+  Otterfact,
+  Otterversion,
+  Pogotter,
 } from "./commands";
 
 export default class OtterBot {
@@ -32,6 +35,9 @@ export default class OtterBot {
     this.commands.set("hoeveelotterdagen", new Howmanyotterdays());
     this.commands.set("rareotter", new Weirdotter());
     this.commands.set("otterofniet", new Otterornot());
+    this.commands.set("otterfeit", new Otterfact());
+    this.commands.set("version", new Otterversion());
+    this.commands.set("pog", new Pogotter());
 
     this.client
       .login(process.env.API_KEY)
