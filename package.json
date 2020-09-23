@@ -1,6 +1,6 @@
 {
   "name": "otter-bot",
-  "version": "0.4.8.3",
+  "version": "0.4.8.4",
   "description": "Voor al de pizzakoerierenfanclub otter benodigheden",
   "main": "index.js",
   "repository": {
@@ -42,7 +42,7 @@
     "clean:restart:production": "yarn clean && yarn install && yarn start:production",
     "logs:clean": "rm -rf ./logs",
     "docker:build": "docker-compose rm -f && docker-compose up --detach --force-recreate",
-    "docker:launch": "docker run --env-file .env bruhgaming/otter-bot:latest",
+    "docker:launch": "docker run --env-file .env bruhgaming/otter-bot",
     "docker:compose": "docker-compose rm -f && docker-compose up --detach --force-recreate && docker commit otter-bot && docker push bruhgaming/otter-bot"
   }
 }

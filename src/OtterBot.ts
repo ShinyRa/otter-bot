@@ -29,15 +29,15 @@ export default class OtterBot {
     this.client = new Client();
 
     this.commands.set("help", new Help());
-    this.commands.set("otterdag", new Otterday());
     this.commands.set("otter", new Otter());
-    this.commands.set("whodis", new Whodis());
+    this.commands.set("otterdag", new Otterday());
     this.commands.set("hoeveelotterdagen", new Howmanyotterdays());
-    this.commands.set("rareotter", new Weirdotter());
     this.commands.set("otterofniet", new Otterornot());
+    this.commands.set("whodis", new Whodis());
+    this.commands.set("rareotter", new Weirdotter());
     this.commands.set("otterfeit", new Otterfact());
-    this.commands.set("version", new Otterversion());
     this.commands.set("pog", new Pogotter());
+    this.commands.set("versie", new Otterversion());
 
     this.client
       .login(process.env.API_KEY)
@@ -99,7 +99,9 @@ export default class OtterBot {
   }
 
   public logout() {
+    this.logger.report(`Logging out otterbot...`);
     this.client.destroy();
+    this.logger.report(`Goodbye!`);
   }
 
   /**

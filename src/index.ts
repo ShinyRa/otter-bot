@@ -9,7 +9,6 @@ const logger: OtterLogger = new OtterLogger(IO);
 
 let welcome: String = String.raw`
 
-
  ______   ______  ______  ______   ______   ______   ______   ______  
 /\  __ \ /\__  _\/\__  _\/\  ___\ /\  == \ /\  == \ /\  __ \ /\__  _\ 
 \ \ \/\ \\/_/\ \/\/_/\ \/\ \  __\ \ \  __< \ \  __< \ \ \/\ \\/_/\ \/ 
@@ -27,8 +26,6 @@ logger.report(`Logging in otterbot...`);
 const bot = new OtterBot(logger);
 
 process.on("SIGINT", () => {
-  logger.report(`Logging out otterbot...`);
   bot.logout();
-  logger.report(`Goodbye!`);
   process.exit(0);
 });

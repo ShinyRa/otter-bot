@@ -19,6 +19,8 @@ export class Help extends Command {
       )}: Hoeveel otterdagen zijn er al geweest sinds de launch van Otter-bot?
       ${this.bold("?otterfeit")}: Geeft een leuk feitje over de otter!
       ${this.bold("?whodis")}: Geeft wat info over de gezellige codeurs!
+      ${this.bold("?pog")}: De otter pogt, hoe dan?
+      ${this.bold("?versie")}: Geeft mijn versie terug
 
       Waar wacht je nog op! ga praten met de otter in het otter kanaal!`
     );
