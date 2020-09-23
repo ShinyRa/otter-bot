@@ -2,7 +2,6 @@
   "name": "otter-bot",
   "version": "0.4.8.4",
   "description": "Voor al de pizzakoerierenfanclub otter benodigheden",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ShinyRa/otter-bot.git"

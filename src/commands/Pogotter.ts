@@ -5,10 +5,8 @@ import { Command, CommandParams } from "./Command";
 
 export class Pogotter extends Command {
   public async execute({ message }: CommandParams): Promise<Message> {
-    return new Promise(() => {
-      message.reply(null, {
-        files: ["./assets/otter_pog.png"],
-      });
+    return message.reply(null, {
+      files: ["./assets/otter_pog.png"],
     });
   }
 }

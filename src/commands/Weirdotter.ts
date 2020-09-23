@@ -5,17 +5,14 @@ import { Command, CommandParams } from "./Command";
 
 export class Weirdotter extends Command {
   public async execute({ message }: CommandParams): Promise<Message> {
-    return new Promise(() => {
-      this.getDeepAiOtter()
-        .then((result) => {
-          message.reply("Hier, een rare otter pic!", {
-            files: [result],
-          });
-        })
-        .catch(() => {
-          message.reply("Mislukt om otter pic op te halen :(");
-        });
-    });
+    try {
+      const result = await this.getDeepAiOtter();
+      return message.reply("Hier, een rare otter pic!", {
+        files: [result],
+      });
+    } catch {
+      return message.reply("Mislukt om otter pic op te halen :(");
+    }
   }
 
   /**

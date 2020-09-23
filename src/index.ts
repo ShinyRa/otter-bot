@@ -6,7 +6,7 @@ import { version } from "../package.json";
 const ENV = process.env.NODE_ENV;
 const logger: OtterLogger = new OtterLogger();
 
-let welcome: String = String.raw`
+const welcome = `
 
  ______   ______  ______  ______   ______   ______   ______   ______  
 /\  __ \ /\__  _\/\__  _\/\  ___\ /\  == \ /\  == \ /\  __ \ /\__  _\ 
@@ -17,7 +17,7 @@ let welcome: String = String.raw`
 
 `;
 
-logger.writeToConsole(welcome.toString());
+logger.writeToConsole(welcome);
 logger.report(`Version: [${version}]`);
 logger.report(`Lauching otterbot in ${ENV} environment...`);
 logger.report(`Logging in otterbot...`);
