@@ -4,7 +4,7 @@ import { version } from "../package.json";
 import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
-import * as Command from "./commands";
+import * as Cmd from "./commands";
 
 export default class OtterBot {
   logger: OtterLogger;
@@ -17,16 +17,16 @@ export default class OtterBot {
     this.logger = logger;
     this.client = new Client();
 
-    this.commands.set("help", new Command.Help());
-    this.commands.set("otter", new Command.Otter());
-    this.commands.set("otterdag", new Command.Otterday());
-    this.commands.set("hoeveelotterdagen", new Command.Howmanyotterdays());
-    this.commands.set("otterofniet", new Command.Otterornot());
-    this.commands.set("whodis", new Command.Whodis());
-    this.commands.set("rareotter", new Command.Weirdotter());
-    this.commands.set("otterfeit", new Command.Otterfact());
-    this.commands.set("pog", new Command.Pogotter());
-    this.commands.set("versie", new Command.Otterversion());
+    this.commands.set("help", new Cmd.Help());
+    this.commands.set("otter", new Cmd.Otter());
+    this.commands.set("otterdag", new Cmd.Otterday());
+    this.commands.set("hoeveelotterdagen", new Cmd.Howmanyotterdays());
+    this.commands.set("otterofniet", new Cmd.Otterornot());
+    this.commands.set("whodis", new Cmd.Whodis());
+    this.commands.set("rareotter", new Cmd.Weirdotter());
+    this.commands.set("otterfeit", new Cmd.Otterfact());
+    this.commands.set("pog", new Cmd.Pogotter());
+    this.commands.set("versie", new Cmd.Otterversion());
 
     this.client
       .login(process.env.API_KEY)
@@ -65,7 +65,7 @@ export default class OtterBot {
       const identifier = message.content.substring(1);
       const command = this.commands.get(identifier);
 
-      if (command instanceof Command.Command) {
+      if (command instanceof Cmd.Command) {
         this.logger.report(
           `Executing command "${message.content}", for user ${message.author.tag}`
         );
