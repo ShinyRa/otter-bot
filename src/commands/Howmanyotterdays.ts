@@ -11,10 +11,12 @@ export class Howmanyotterdays extends Command {
     this.otterdayCelebrationDate = moment("2020-07-01", "YYYY-MM-DD");
   }
 
-  public async execute({ message }: CommandParams): Promise<Message> {
-    return message.reply(
-      `Er zijn al ${this.otterdayCount()} otterdagen geweest!`
-    );
+  public async reply({ message }: CommandParams): Promise<Message> {
+    return message.reply(await this.execute());
+  }
+
+  public async execute(): Promise<string> {
+    return `Er zijn al ${this.otterdayCount()} otterdagen geweest!`;
   }
 
   public otterdayCount(): number {

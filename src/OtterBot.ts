@@ -70,7 +70,7 @@ export default class OtterBot {
           `Executing command "${message.content}", for user ${message.author.tag}`
         );
         command
-          .execute({ message: message })
+          .reply({ message: message })
           .then(() => {
             this.logger.report(
               `Completed command "${message.content}", for user ${message.author.tag}`

@@ -4,15 +4,19 @@ import axios from "axios";
 import { Command, CommandParams } from "./Command";
 
 export class Weirdotter extends Command {
-  public async execute({ message }: CommandParams): Promise<Message> {
+  public async reply({ message }: CommandParams): Promise<Message> {
     try {
-      const result = await this.getDeepAiOtter();
+      const result = await this.execute();
       return message.reply("Hier, een rare otter pic!", {
         files: [result],
       });
     } catch {
       return message.reply("Mislukt om otter pic op te halen :(");
     }
+  }
+
+  public async execute(): Promise<string> {
+    return await this.getDeepAiOtter();
   }
 
   /**

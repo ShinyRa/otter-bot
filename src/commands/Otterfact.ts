@@ -5,7 +5,7 @@ import randomWords from "random-words";
 import { Command, CommandParams } from "./Command";
 
 export class Otterfact extends Command {
-  public async execute({ message }: CommandParams): Promise<Message> {
+  public async reply({ message }: CommandParams): Promise<Message> {
     return new Promise(async () => {
       const msg = await message.reply("Ik ben aan het denken");
       let count = 1;
@@ -18,15 +18,19 @@ export class Otterfact extends Command {
         }
         count++;
       }, 3000);
-      this.getDeepOtterFact()
-        .then((result) => {
-          clearInterval(loading);
-          msg.edit(result);
-        })
-        .catch((error) => {
-          msg.reply(error);
-        });
+
+      try {
+        const otterFact = await this.getDeepOtterFact();
+        clearInterval(loading);
+        msg.edit(otterFact);
+      } catch {
+        msg.reply("Mislukt om otter feit op te halen :(");
+      }
     });
+  }
+
+  public async execute(): Promise<string> {
+    return this.getDeepOtterFact();
   }
 
   /**
@@ -41,7 +45,7 @@ export class Otterfact extends Command {
         exactly: 4,
         join: " ",
       })}?`,
-    }).catch(() => fail("Mislukt om otter feit op te halen :("));
+    });
     return response.data.output.substring(0, 250) + " ...";
   }
 }

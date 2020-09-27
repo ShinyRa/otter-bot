@@ -4,15 +4,19 @@ import axios from "axios";
 import { Command, CommandParams } from "./Command";
 
 export class Otter extends Command {
-  public async execute({ message }: CommandParams): Promise<Message> {
+  public async reply({ message }: CommandParams): Promise<Message> {
     try {
       const result = await this.getOtterPic();
       return message.reply("Hier, een mooie otter pic!", {
-        files: [result],
+        files: [await this.execute()],
       });
     } catch {
       return message.reply("Mislukt om otter pic op te halen :(");
     }
+  }
+
+  public async execute(): Promise<string> {
+    return this.getOtterPic();
   }
 
   private async getOtterPic(): Promise<string> {

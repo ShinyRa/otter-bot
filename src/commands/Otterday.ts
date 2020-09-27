@@ -11,8 +11,12 @@ export class Otterday extends Command {
     this.otterdayCelebrationDate = moment("2020-07-01", "YYYY-MM-DD");
   }
 
-  public async execute({ message }: CommandParams): Promise<Message> {
-    return message.reply(this.otterdayFormat());
+  public async reply({ message }: CommandParams): Promise<Message> {
+    return message.reply(await this.execute());
+  }
+
+  public async execute(): Promise<string> {
+    return this.otterdayFormat();
   }
 
   public otterdayFormat(): string {

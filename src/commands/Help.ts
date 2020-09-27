@@ -3,9 +3,12 @@ import { Message } from "discord.js";
 import { Command, CommandParams } from "./Command";
 
 export class Help extends Command {
-  public async execute({ message }: CommandParams): Promise<Message> {
-    return message.author.send(
-      String.raw`
+  public async reply({ message }: CommandParams): Promise<Message> {
+    return message.author.send(await this.execute());
+  }
+
+  public async execute(): Promise<string> {
+    return `
       Hier komt wat Otter wijsheid!
       
       ${this.bold(
@@ -23,8 +26,7 @@ export class Help extends Command {
       ${this.bold("?pog")}: De otter pogt, hoe dan?
       ${this.bold("?versie")}: Geeft mijn versie terug
 
-      Waar wacht je nog op! ga praten met de otter in het otter kanaal!`
-    );
+      Waar wacht je nog op! ga praten met de otter in het otter kanaal!`;
   }
 
   private bold(text: string): string {

@@ -3,6 +3,7 @@
 
 # File holding environment variables, not for your eyes
 .env
+.env.test
 .env.production
 
 # Auto generated files
