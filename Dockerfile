@@ -10,7 +10,7 @@ COPY . .
 RUN yarn install
 
 # Run tests (build fails if tests fail)
-# RUN yarn test
+RUN yarn test
 
 # Run in productionmode
 CMD ["yarn", "start:production"]
