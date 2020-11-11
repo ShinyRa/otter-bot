@@ -10,3 +10,4 @@ export { Otterornot } from "./Otterornot";
 export { Otterfact } from "./Otterfact";
 export { Otterversion } from "./Otterversion";
 export { Pogotter } from "./Pogotter";
+export { Repeat } from "./Repeat";

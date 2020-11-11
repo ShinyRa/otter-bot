@@ -27,6 +27,7 @@ export default class OtterBot {
     this.commands.set("otterfeit", new Cmd.Otterfact());
     this.commands.set("pog", new Cmd.Pogotter());
     this.commands.set("versie", new Cmd.Otterversion());
+    // this.commands.set("repeat", new Cmd.Repeat(this.client));
 
     this.client
       .login(process.env.API_KEY)

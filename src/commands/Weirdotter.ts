@@ -25,7 +25,7 @@ export class Weirdotter extends Command {
   async getDeepAiOtter() {
     const response = await axios({
       method: "post",
-      url: `https://api.deepai.org/api/text2img`,
+      url: "https://api.deepai.org/api/text2img",
       headers: { "api-key": process.env.DEEP_AI_KEY },
       data: "text=otter",
     });
