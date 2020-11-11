@@ -5,10 +5,12 @@ import { OtterLogger } from "./utils/logger/OtterLogger";
 import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
 import * as Cmd from "./commands";
+import { Profanityfilter } from "./utils/profanity/Profanityfilter";
 
 export default class OtterBot {
   logger: OtterLogger;
   client: Client;
+  profanityfilter: Profanityfilter;
 
   PREFIX: string = "?";
   commands: Map<string, any> = new Map<string, any>();
@@ -16,6 +18,7 @@ export default class OtterBot {
   constructor(logger: OtterLogger) {
     this.logger = logger;
     this.client = new Client();
+    this.profanityfilter = new Profanityfilter;
 
     this.commands.set("help", new Cmd.Help());
     this.commands.set("otter", new Cmd.Otter());
@@ -61,7 +64,7 @@ export default class OtterBot {
 
   listenForCommands(): void {
     this.client.on("message", async (message: Message) => {
-      if (!message.content.startsWith(this.PREFIX)) return;
+      if (!message.content.startsWith(this.PREFIX) || this.profanityfilter.checkword(message)) return;
 
       const identifier = message.content.substring(1);
       const command = this.commands.get(identifier);

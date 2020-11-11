@@ -28,7 +28,7 @@ export class Otterfact extends Command {
       }
     });
   }
-
+  
   public async execute(): Promise<string> {
     return this.getDeepOtterFact();
   }

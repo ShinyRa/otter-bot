@@ -8,5 +8,5 @@ module.exports = {
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(js?|ts?)$",
   moduleFileExtensions: ["ts", "js"],
   setupFiles: ["./src/test/setupEnvironment.js"],
-  testTimeout: 60000,
+  testTimeout: 120000,
 };
