@@ -6,31 +6,41 @@ import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
 import * as Cmd from "./commands";
 import { Profanityfilter } from "./utils/profanity/Profanityfilter";
-
 export default class OtterBot {
   logger: OtterLogger;
   client: Client;
   profanityfilter: Profanityfilter;
 
   PREFIX: string = "?";
-  commands: Map<string, any> = new Map<string, any>();
+  commands: Map<string[], any> = new Map<string[], any>();
+  getCommandFromIdentifier: (string) => any;
 
   constructor(logger: OtterLogger) {
     this.logger = logger;
     this.client = new Client();
     this.profanityfilter = new Profanityfilter;
 
-    this.commands.set("help", new Cmd.Help());
-    this.commands.set("otter", new Cmd.Otter());
-    this.commands.set("otterdag", new Cmd.Otterday());
-    this.commands.set("hoeveelotterdagen", new Cmd.Howmanyotterdays());
-    this.commands.set("otterofniet", new Cmd.Otterornot());
-    this.commands.set("whodis", new Cmd.Whodis());
-    this.commands.set("rareotter", new Cmd.Weirdotter());
-    this.commands.set("otterfeit", new Cmd.Otterfact());
-    this.commands.set("pog", new Cmd.Pogotter());
-    this.commands.set("versie", new Cmd.Otterversion());
+    this.commands.set(["help"], new Cmd.Help());
+    this.commands.set(["otter"], new Cmd.Otter());
+    this.commands.set(["otterdag", "otterday"], new Cmd.Otterday());
+    this.commands.set(["hoeveelotterdagen", 'howmanyotterdays'], new Cmd.Howmanyotterdays());
+    this.commands.set(["otterofniet", "otterornot"], new Cmd.Otterornot());
+    this.commands.set(["whodis"], new Cmd.Whodis());
+    this.commands.set(["rareotter"], new Cmd.Weirdotter());
+    this.commands.set(["otterfeit", "feit", "otterfact"], new Cmd.Otterfact());
+    this.commands.set(["otterpog", "pog"], new Cmd.Pogotter());
+    this.commands.set(["versie", "version"], new Cmd.Otterversion());
     // this.commands.set("repeat", new Cmd.Repeat(this.client));
+
+    this.getCommandFromIdentifier = (identifier: string): any => {
+      for (const identifiers of this.commands.keys()) {
+        if (identifiers.includes(identifier)) {
+          return this.commands.get(identifiers)
+        }
+      }
+      return false
+    }
+
 
     this.client
       .login(process.env.API_KEY)
@@ -52,7 +62,7 @@ export default class OtterBot {
       this.logger.report(`Logged in as ${this.client.user?.tag}!`);
       setInterval(() => {
         this.client.user?.setActivity(
-          this.commands.get("otterdag")?.otterdayFormat()
+          this.getCommandFromIdentifier("otterdag")?.otterdayFormat()
         );
       }, 60000);
     });
@@ -67,7 +77,7 @@ export default class OtterBot {
       if (!message.content.startsWith(this.PREFIX) || this.profanityfilter.checkword(message)) return;
 
       const identifier = message.content.substring(1);
-      const command = this.commands.get(identifier);
+      const command = this.getCommandFromIdentifier(identifier);
 
       if (command instanceof Cmd.Command) {
         this.logger.report(
