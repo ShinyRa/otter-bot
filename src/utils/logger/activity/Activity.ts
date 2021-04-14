@@ -15,7 +15,7 @@ export class Activity {
   getFormatted(): string {
     return `[${this.time}]: ${this.message}, with status ${
       ActivityStatusEnum[this.status]
-    }}`;
+    }`;
   }
 
   getMessage(): string {
