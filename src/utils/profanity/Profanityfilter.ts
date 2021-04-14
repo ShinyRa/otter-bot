@@ -1,36 +1,40 @@
 import { Message } from "discord.js";
 
+import * as fs from "fs";
+import * as readline from "readline";
+
 export class Profanityfilter {
-    private PATH = './src/utils/profanity/Badwords.txt';
-    private JFile;
-    private profwords;
+  private path: string = "src/utils/profanity/profanity.txt";
 
-    constructor(){
-        this.JFile = require('jfile');
-        this.profwords = new this.JFile(this.PATH);
+  /**
+   * Check if message contains swearwords.
+   *
+   * @param message Message | Discord message.
+   * @returns Promise<boolean> | True if message contains swearword.
+   */
+  public async checkword(message: Message): Promise<boolean> {
+    const readInterface = readline.createInterface({
+      input: fs.createReadStream(this.path),
+    });
+
+    let containsSwearWord = false;
+    const words = message.content.split(" ");
+
+    for await (const line of readInterface) {
+      for (const word of words) {
+        if (line.trim() == this.cleanPrefix(word)) containsSwearWord = true;
+      }
     }
 
-    public checkword(message: Message){
-            if(this.filter(message)){
-                message.reply(" O dat vind otter niet zo leuk om te horen...");
-                return true;
-            }
-            return false;
-    }
-    
-    private filter(message: Message) {
-        let messageTrimmed: string = message.content.substring(1);
-        let result= this.profwords.grep(messageTrimmed);
-        if(result.length != 0){
-            console.log(result);
-            for (const element of result) {
-                console.log(element.trim()+" == "+messageTrimmed);
-                if(element.trim() === messageTrimmed){
-                    console.log("dat mag je niet zeggen");
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    return containsSwearWord;
+  }
+
+  /**
+   * Clean command from prefix
+   *
+   * @param command string
+   * @returns string | cleaned command
+   */
+  private cleanPrefix = (command: string): string =>
+    command.charAt(0) === "?" ? command.substring(1) : command;
 }
