@@ -1,4 +1,4 @@
-import { Client, Message } from "discord.js";
+import { Client, Message, REST, Routes, GatewayIntentBits } from "discord.js";
 
 import { version } from "../package.json";
 import { OtterLogger } from "./utils/logger/OtterLogger";
@@ -6,6 +6,7 @@ import { ActivityStatusEnum } from "./utils/logger/activity/ActivityStatusEnum";
 
 import * as Cmd from "./commands";
 import { Profanityfilter } from "./utils/profanity/Profanityfilter";
+
 export default class OtterBot {
   logger: OtterLogger;
   client: Client;
@@ -16,31 +17,58 @@ export default class OtterBot {
   getCommandFromIdentifier: (string) => any;
 
   constructor(logger: OtterLogger) {
+    const { clientId, guildId, token } = require("./config.json");
     this.logger = logger;
-    this.client = new Client();
-    this.profanityfilter = new Profanityfilter;
+    this.client = new Client({ intents: [GatewayIntentBits.Guilds] });
+    this.profanityfilter = new Profanityfilter();
 
     this.commands.set(["help"], new Cmd.Help());
     this.commands.set(["otter"], new Cmd.Otter());
     this.commands.set(["otterdag", "otterday"], new Cmd.Otterday());
-    this.commands.set(["hoeveelotterdagen", 'howmanyotterdays'], new Cmd.Howmanyotterdays());
+    this.commands.set(
+      ["hoeveelotterdagen", "howmanyotterdays"],
+      new Cmd.Howmanyotterdays()
+    );
     this.commands.set(["otterofniet", "otterornot"], new Cmd.Otterornot());
     this.commands.set(["whodis"], new Cmd.Whodis());
     this.commands.set(["rareotter"], new Cmd.Weirdotter());
     this.commands.set(["otterfeit", "feit", "otterfact"], new Cmd.Otterfact());
     this.commands.set(["otterpog", "pog"], new Cmd.Pogotter());
     this.commands.set(["versie", "version"], new Cmd.Otterversion());
+    this.commands.set(["meme", "meme"], new Cmd.Otterversion());
     // this.commands.set("repeat", new Cmd.Repeat(this.client));
+    // Construct and prepare an instance of the REST module
+    const rest = new REST({ version: "10" }).setToken(token);
+
+    (async () => {
+      try {
+        console.log(
+          `Started refreshing ${this.commands.size()} application (/) commands.`
+        );
+
+        // The put method is used to fully refresh all commands in the guild with the current set
+        const data = await rest.put(
+          Routes.applicationGuildCommands(clientId, guildId),
+          { body: this.commands }
+        );
+
+        console.log(
+          `Successfully reloaded ${data.length} application (/) commands.`
+        );
+      } catch (error) {
+        // And of course, make sure you catch and log any errors!
+        console.error(error);
+      }
+    })();
 
     this.getCommandFromIdentifier = (identifier: string): any => {
       for (const identifiers of this.commands.keys()) {
         if (identifiers.includes(identifier)) {
-          return this.commands.get(identifiers)
+          return this.commands.get(identifiers);
         }
       }
-      return false
-    }
-
+      return false;
+    };
 
     this.client
       .login(process.env.API_KEY)
@@ -52,7 +80,7 @@ export default class OtterBot {
         );
       })
       .finally(() => {
-        this.listenForCommands();
+        // this.listenForCommands();
         this.client.user?.setActivity(
           `[${version}] in ${process.env.NODE_ENV} environment!`
         );
@@ -73,30 +101,29 @@ export default class OtterBot {
   }
 
   listenForCommands(): void {
-    this.client.on("message", async (message: Message) => {
-      if (!message.content.startsWith(this.PREFIX) || this.profanityfilter.checkword(message)) return;
+    this.client.on("interactionCreate", async (interaction) => {
+      if (!interaction.isChatInputCommand()) return;
 
-      const identifier = message.content.substring(1);
+      const identifier = interaction.commandName;
       const command = this.getCommandFromIdentifier(identifier);
 
       if (command instanceof Cmd.Command) {
-        this.logger.report(
-          `Executing command "${message.content}", for user ${message.author.tag}`
-        );
-        command
-          .reply({ message: message })
-          .then(() => {
-            this.logger.report(
-              `Completed command "${message.content}", for user ${message.author.tag}`
-            );
-          })
-          .catch((error) => {
-            this.logger.report(
-              `Failed to execute command "${message.content}", for user ${message.author.tag}`,
-              ActivityStatusEnum.ERROR
-            );
-            this.logger.report(error, ActivityStatusEnum.ERROR);
-          });
+        // this.logger.report(
+        //   `Executing command "${message.content}", for user ${message.author.tag}`
+        // );
+        command.reply({ message: interaction });
+        // .then(() => {
+        //   this.logger.report(
+        //     `Completed command "${message.content}", for user ${message.author.tag}`
+        //   );
+        // })
+        // .catch((error) => {
+        //   this.logger.report(
+        //     `Failed to execute command "${message.content}", for user ${message.author.tag}`,
+        //     ActivityStatusEnum.ERROR
+        //   );
+        //   this.logger.report(error, ActivityStatusEnum.ERROR);
+        // });
       }
     });
   }
